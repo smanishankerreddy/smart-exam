@@ -65,7 +65,9 @@ def login():
     except Exception as e:
         return jsonify({'status': 'error', 'message': f'Server error: {str(e)}'}), 500
 
-# Run app
+# Ensure DB is initialized even when run via gunicorn
+init_db()
+
 if __name__ == '__main__':
-    init_db()  # Ensure DB is ready
     app.run(debug=True)
+
