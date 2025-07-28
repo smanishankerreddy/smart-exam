@@ -26,6 +26,7 @@ def init_db():
 def login_page():
     return send_from_directory('static', 'login.html')
 
+
 # Serve exam.html after login
 @app.route('/exam')
 def exam_page():
