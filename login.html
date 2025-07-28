@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Smart Exam Login</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f2f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .login-box {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      width: 300px;
+      text-align: center;
+    }
+    input {
+      width: 90%;
+      padding: 10px;
+      margin: 15px 0;
+      font-size: 16px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background: #007bff;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="login-box">
+    <h2>Smart Exam Login</h2>
+    <form id="loginForm">
+      <input type="text" id="regNo" placeholder="Enter Register Number" required />
+      <button type="submit">Start Exam</button>
+    </form>
+    <p id="msg" style="color:red;"></p>
+  </div>
+
+  <script>
+    document.getElementById('loginForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const regNo = document.getElementById('regNo').value.trim();
+
+      if (!regNo) {
+        document.getElementById('msg').textContent = "Register Number is required.";
+        return;
+      }
+
+      const res = await fetch('/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ reg_no: regNo })
+      });
+
+      const result = await res.json();
+
+      if (result.status === 'allowed') {
+        // Optional: Store regNo in sessionStorage
+        sessionStorage.setItem('regNo', regNo);
+        window.location.href = "/exam";
+      } else {
+        document.getElementById('msg').textContent = result.message;
+      }
+    });
+  </script>
+
+</body>
+</html>
