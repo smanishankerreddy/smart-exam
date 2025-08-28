@@ -1,0 +1,44 @@
+🔹 1. Make sure Python & pip are installed
+
+Open a terminal (or Command Prompt on Windows) and check:
+
+python --version
+pip --version
+
+
+You should see versions (e.g., Python 3.11.x).
+
+If pip isn’t found, try:
+
+python -m ensurepip --upgrade
+
+🔹 2. (Recommended) Create a virtual environment
+
+This keeps your exam project dependencies isolated:
+
+python -m venv venv
+
+
+Activate it:
+
+On Windows:
+
+venv\Scripts\activate
+
+
+On Linux/Mac:
+
+source venv/bin/activate
+
+🔹 3. Install Flask and openpyxl
+
+Now run:
+
+pip install flask openpyxl
+
+🔹 4. Verify installation
+
+Check versions:
+
+pip show flask
+pip show openpyxl
