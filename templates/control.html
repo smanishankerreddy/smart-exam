@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Smart Exam - Control Panel</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f9fafb;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background: #2563eb;
+      color: white;
+      padding: 1rem;
+      text-align: center;
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
+
+    .container {
+      padding: 2rem;
+    }
+
+    h2 {
+      margin-bottom: 1rem;
+      color: #111827;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      margin-bottom: 2rem;
+    }
+
+    th, td {
+      padding: 0.8rem;
+      border-bottom: 1px solid #ddd;
+      text-align: center;
+    }
+
+    th {
+      background: #f3f4f6;
+    }
+
+    button {
+      padding: 0.4rem 0.8rem;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .start-btn {
+      background: #16a34a;
+      color: white;
+    }
+
+    .start-btn:hover {
+      background: #15803d;
+    }
+
+    .reset-btn {
+      background: #ef4444;
+      color: white;
+      margin-right: 1rem;
+    }
+
+    .reset-btn:hover {
+      background: #b91c1c;
+    }
+
+    .export-btn {
+      background: #2563eb;
+      color: white;
+    }
+
+    .export-btn:hover {
+      background: #1e40af;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    Smart Exam - Control Panel
+  </header>
+
+  <div class="container">
+    <h2>Student Status</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Student ID</th>
+          <th>Status</th>
+          <th>Start Time</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for student_id, info in students.items() %}
+        <tr>
+          <td>{{ student_id }}</td>
+          <td>
+            {% if info.started %}
+              ✅ Started
+            {% else %}
+              ⏳ Waiting
+            {% endif %}
+          </td>
+          <td>{{ info.start_time if info.start_time else "-" }}</td>
+          <td>
+            {% if not info.started %}
+              <button class="start-btn" onclick="startExam('{{ student_id }}')">Start Exam</button>
+            {% else %}
+              <span>—</span>
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <div>
+      <button class="reset-btn" onclick="resetAll()">Reset All</button>
+      <button class="export-btn" onclick="exportResults()">Export Results</button>
+    </div>
+  </div>
+
+  <script>
+    // Call backend to start exam for a student
+    async function startExam(studentId) {
+      const res = await fetch(`/start_exam/${studentId}`, { method: "POST" });
+      const data = await res.json();
+      if (data.success) {
+        alert(`Exam started for ${studentId}`);
+        location.reload();
+      } else {
+        alert("Error: " + data.error);
+      }
+    }
+
+    // Reset all sessions
+    async function resetAll() {
+      if (!confirm("Are you sure you want to reset all exams?")) return;
+      const res = await fetch("/reset", { method: "POST" });
+      const data = await res.json();
+      if (data.success) {
+        alert("All sessions reset.");
+        location.reload();
+      }
+    }
+
+    // Export results (placeholder)
+    function exportResults() {
+      window.location.href = "/export_results";
+    }
+  </script>
+
+  <h2>Upload New Questions</h2>
+<form action="/upload_questions" method="POST" enctype="multipart/form-data">
+  <input type="file" name="file" accept=".xlsx" required>
+  <button type="submit">Upload</button>
+</form>
+
+</body>
+</html>

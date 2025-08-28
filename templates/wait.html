@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Smart Exam - Waiting Room</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f9fafb;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .wait-container {
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      text-align: center;
+      width: 350px;
+    }
+
+    h2 {
+      margin-bottom: 1rem;
+      color: #111827;
+    }
+
+    p {
+      color: #374151;
+      margin-bottom: 1rem;
+    }
+
+    .loader {
+      border: 5px solid #f3f3f3;
+      border-top: 5px solid #2563eb;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin: 1rem auto;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <div class="wait-container">
+    <h2>Waiting for Exam to Start</h2>
+    <p>Your proctor has not started the exam yet.</p>
+    <div class="loader"></div>
+    <p>Please wait…</p>
+  </div>
+
+  <script>
+    // Student ID passed from Flask
+    const studentId = "{{ student_id }}";
+
+    // Poll server every 3 seconds
+    setInterval(async () => {
+      const res = await fetch(`/check_status/${studentId}`);
+      const data = await res.json();
+      if (data.active) {
+        window.location.href = `/exam/${studentId}`;
+      }
+    }, 3000);
+  </script>
+</body>
+</html>

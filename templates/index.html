@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Smart Examination</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <script src="/static/script.js" defer></script>
+</head>
+<body>
+  <!-- Header with student ID + timer -->
+   <script>
+  const studentId = "{{ student_id }}";
+</script>
+
+  <div id="timer">
+    Student ID: {{ student_id }} | Time Left: <span id="time">--:--</span>
+  </div>
+
+  <div class="container" id="exam-area">
+    <!-- Sidebar with question numbers -->
+    <div class="sidebar" id="question-list"></div>
+
+    <!-- Exam content -->
+    <div class="exam-box">
+      <div class="question-display">
+        <!-- Question number -->
+        <div id="question-number" class="question-number"></div>
+
+        <!-- Scrolling question field -->
+        <div class="question-box">
+          <div id="question-text" class="question-text"></div>
+        </div>
+
+        <!-- Options -->
+        <div class="options">
+          <label><input type="radio" name="option" value="A" /> <span id="optA">Option A</span></label>
+          <label><input type="radio" name="option" value="B" /> <span id="optB">Option B</span></label>
+          <label><input type="radio" name="option" value="C" /> <span id="optC">Option C</span></label>
+          <label><input type="radio" name="option" value="D" /> <span id="optD">Option D</span></label>
+        </div>
+      </div>
+
+      <!-- Navigation -->
+      <div class="nav-buttons">
+        <button id="prevBtn">Previous</button>
+        <button id="nextBtn">Next</button>
+        <button id="submitBtn">Submit</button>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
