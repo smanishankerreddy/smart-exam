@@ -42,3 +42,15 @@ Check versions:
 
 pip show flask
 pip show openpyxl
+
+
+Run your app
+
+In terminal (make sure you’re inside the project folder and virtual environment is activated):
+
+python app.py
+
+
+You should see something like:
+
+* Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
